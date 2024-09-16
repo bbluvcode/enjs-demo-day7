@@ -18,7 +18,7 @@ mongoose
   .connect(
     "mongodb+srv://bbluvcode:admin123@cluster0.4opwr.mongodb.net/demo?retryWrites=true&w=majority&appName=Cluster0"
   )
-  .then(() => console.log("Database connected!"))
+  .then(() => console.log("Database demo/CUSTOMER connected!"))
   .catch((err) => console.log(err));
 
 var app = express();
