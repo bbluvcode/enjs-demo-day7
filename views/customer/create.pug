@@ -6,7 +6,7 @@ block content
     form(action="/customer/create", method="post", enctype="multipart/form-data")
         div
             lable(for="fullname") Fullname 
-            input(type="text", name="fullname", id="fullname")
+            input#fullname(type="text", name="fullname")
             if errors
                 each e in errors 
                     if e.path === 'fullname'

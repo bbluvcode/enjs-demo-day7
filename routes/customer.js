@@ -51,14 +51,14 @@ router.post(
     upload.single("image"),
   ],
   async (req, res) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.log(errors)
-      return res.render("customer/create", {
-        title: "Create Customer",
-        errors: errors.array()[0],
-      });
-    }
+    // let errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   console.log(errors)
+    //   return res.render("customer/create", {
+    //     title: "Create Customer",
+    //     errors: errors.array(),
+    //   });
+    // }
 
     let cust = new customerModel(req.body);
     cust.image = req.file.filename;
