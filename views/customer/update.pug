@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    h1=title 
+    
+    form(action="/customer/create", method="post", enctype="multipart/form-data")
+        div
+            lable(for="fullname") Fullname 
+            input(type="text", name="fullname", id="fullname")
+        div
+            lable(for="email") Email 
+            input(type="text", name="email", id="email")
+        div
+            lable(for="password") Password 
+            input(type="password", name="password", id="password")
+        div
+            lable(for="image") Image 
+            input(type="file", name="image", id="image")
+        div
+            input(type="submit", value="Create")

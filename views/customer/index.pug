@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+  h4
+    a(href='/customer/create') Create New  
+  h1= title
+  form(action='/customer/search')
+    label(for='keyword') Keyword 
+    input(type='text' name='keyword')
+    input(type='submit' value='Search')
+  p Welcome to #{title}
+  table 
+    thead 
+      tr 
+        th Id
+        th Fullname
+        th Email
+        th Image
+        th Actions
+    tbody 
+      if customers.length > 0
+        each c in customers 
+          tr
+            td=c._id
+            td=c.fullname
+            td=c.email
+            td
+              img(src=`/images/${c.image}`, alt=c.title, style="width: 100px; heigh: auto;")
+
+            td
+              a(href=`/customer/update/${c._id}`) Update |              
+              a(href=`/customer/delete/${c._id}`) Delete
+      else 
+        tr 
+          td(colspan='5') No Data
