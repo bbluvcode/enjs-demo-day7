@@ -35,6 +35,7 @@ router.get("/create", (req, res) => {
 router.post(
   "/create",
   [
+    upload.single("image"),
     body("fullname").notEmpty().withMessage("Please input Fullname"),
     body("email")
       .notEmpty()
@@ -48,22 +49,75 @@ router.post(
         }
       }),
     body("password").notEmpty().withMessage("Please input Password"),
-    upload.single("image"),
   ],
   async (req, res) => {
-    // let errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   console.log(errors)
-    //   return res.render("customer/create", {
-    //     title: "Create Customer",
-    //     errors: errors.array(),
-    //   });
-    // }
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return res.render("customer/create", {
+        title: "Create Customer",
+        errors: errors.array(),
+      });
+    }
 
     let cust = new customerModel(req.body);
     cust.image = req.file.filename;
     await cust.save();
     res.redirect("/customer");
+  }
+);
+
+//delete
+router.get("/delete/:id", async (req, res) => {
+  await customerModel.findByIdAndDelete(req.params.id);
+  res.redirect("/customer");
+});
+
+//update
+router.get("/update/:id", async (req, res) => {
+  let cus = await customerModel.findById(req.params.id);
+  res.render("customer/update", {
+    title: "Update Customer",
+    cus,
+    img: cus.image,
+  });
+});
+
+router.post(
+  "/update/:id",
+  [
+    upload.single("image"),
+    body("fullname").notEmpty().withMessage("Please input Fullname"),
+    body("email").notEmpty().withMessage("Please input Email"),
+    body("password").notEmpty().withMessage("Please input Password"),
+  ],
+  async (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      let c = await customerModel.findById(req.params.id);
+      return res.render(`customer/update`, {
+        title: "Update Customer",
+        e: errors.array(),
+        cus: req.body,
+        img: c.image,
+      });
+    }
+    const body = req.body;
+    const file = req.file;
+    let cus = await customerModel.findById(req.params.id);
+    cus.fullname = body.fullname;
+    cus.password = body.password;
+    if (file) {
+      cus.image = file.filename;
+    }
+    try {
+      await cus.save();
+      res.redirect("/customer");
+    } catch (error) {
+      res.redirect(`/customer/:id`);
+      res.status(500);
+    }
   }
 );
 

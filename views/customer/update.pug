@@ -3,18 +3,27 @@ extends ../layout
 block content
     h1=title 
     
-    form(action="/customer/create", method="post", enctype="multipart/form-data")
+    form(action=`/customer/update/${cus._id}`, method="post", enctype="multipart/form-data")
         div
             lable(for="fullname") Fullname 
-            input(type="text", name="fullname", id="fullname")
+            input(type="text", name="fullname", id="fullname" value=`${cus.fullname}`)
+            if e 
+                if e[0].path==='fullname'
+                    span=e[0].msg
         div
             lable(for="email") Email 
-            input(type="text", name="email", id="email")
+            input(type="text", name="email", id="email" value=`${cus.email}`)
+            if e && e[0].path==='email'
+                span=e[0].msg
         div
             lable(for="password") Password 
-            input(type="password", name="password", id="password")
+            input(type="password", name="password", id="password" value=`${cus.password}`)
+            if e 
+                if e[0].path==='password'
+                span=e[0].msg
         div
             lable(for="image") Image 
-            input(type="file", name="image", id="image")
+            input(type="file", name="image", id="image" value=`${img}`)
+            img#img(src=`/images/${img}`, alt=cus.title, style="width: 100px; heigh: auto;")
         div
-            input(type="submit", value="Create")
+            input(type="submit", value="Update")

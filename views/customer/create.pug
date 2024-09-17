@@ -10,7 +10,7 @@ block content
             if errors
                 each e in errors 
                     if e.path === 'fullname'
-                        span=e.msg
+                        span=e.msg            
         div
             lable(for="email") Email 
             input(type="text", name="email", id="email")
@@ -18,13 +18,10 @@ block content
                 each e in errors 
                     if e.path === 'email'
                         span=e.msg
+                        break
         div
             lable(for="password") Password 
-            input(type="password", name="password", id="password")
-            if errors
-                each e in errors 
-                    if e.path === 'password'
-                        span=e.msg
+            input(type="password", name="password", id="password")            
         div
             lable(for="image") Image 
             input(type="file", name="image", id="image")
